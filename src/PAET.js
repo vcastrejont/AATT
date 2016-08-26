@@ -87,7 +87,7 @@ var page = require('webpage').create(),
                         // page.clipRect = rect;
                         page.clipRect = { left: rect.left, top: rect.top, width: rect.width + 100 , height: rect.height + 100 };
                         page.render(screenshot_url);
-                        content += '<td class="screenshot"><a data-toggle="modal" data-target="#screenshot"  onClick=showImg("'+ screenshot_url+'")><img src="' + screenshot_url + '" style="width:25px;height:25px"></a></td>';
+                        content += '<td class="screenshot"><a data-toggle="modal" data-target="#screenshot"  onClick=showImg("'+ screenshot_url+'")><img src="../' + screenshot_url + '" style="width:25px;height:25px"></a></td>';
                     } 
                 }else{
                     content += '<td class="messageTechniques">&nbsp; No scr</td>';                    
@@ -109,9 +109,8 @@ var page = require('webpage').create(),
             content += '</div>';
             return;
         }       
-    
-        content += '<table id="test-results-table" class="tablesorter">';
-        content += '<thead><tr><th>Error Level</th><th>Principle</th><th>Message</th><th>Code snippet</th><th>Techniques</th><th>Screenshot</th></thead></tr><tbody>';
+        content += '<table id="test-results-table" class="tablesorter table table-striped table-condensed">';
+        content += '<thead><tr><th >Error Level</th><th>Principle</th><th width="40%">Message</th><th width="30%">Code snippet</th><th>Techniques</th><th>Screenshot</th></thead></tr><tbody>';
 
         // console.log('Debug eLevel -> ', eLevel);
         
@@ -133,10 +132,10 @@ var page = require('webpage').create(),
             heading += '<h4>' + msgs['address'] + '</h4>';
         }
         count = errors + warnings + notices;
-        heading += '<ul id="results-overview"><li class="active">';
-        heading += '<span class="result-count result-count-errors">' + errors + '</span><span class="result-type">errors</span></a></li>';
-        heading += '<span class="result-count result-count-warnings">' + warnings + '</span><span class="result-type">warnings</span></a></li>';
-        heading += '<span class="result-count result-count-notices">' + notices + '</span><span class="result-type">notices</span></a></li>';
+        heading += '<ul id="results-overview">';
+        heading += '<li class="result-count result-count-errors">Errors: ' + errors + '</li>';
+        heading += '<li class="result-count result-count-warnings: ">Warning' + warnings + '</li>';
+        heading += '<li class="result-count result-count-notices: ">Notices' + notices + '</li>';
 
         heading += '</ul>';
 
@@ -149,8 +148,7 @@ var page = require('webpage').create(),
 
         content += '</tbody></table>';
 
-        content  ='<div id="resultsWrapper" class="resultsWrapperActive">' + heading + content +'</div>';
-
+        content  ='<div id="resultsWrapper" class="resultsWrapperActive container">' + heading + content +'</div>';
         return content;
     }
 

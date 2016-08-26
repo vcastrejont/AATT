@@ -85,8 +85,10 @@ if (fs.existsSync(ssl_path)) {
         , msgNotice = req.body.msgNotice
     	, eLevel=[]
     	, engine = req.body.engine
-
+			, textURL = req.body.textURL 
+			var report_filename = textURL.replace('http://','').replace(/\//g, '-').replace(/\./g, '-')+".html";
     	log('E N G I N E ', engine);
+			
 
 		if (typeof req.session.userName !== 'undefined') {
 			userName = req.session.userName;
@@ -110,6 +112,9 @@ if (fs.existsSync(ssl_path)) {
 							, scrshot
 							, eLevel
 						];
+			console.log("Generating report:" +report_filename);
+			
+		
 		}
 		if(engine === 'axe'){
 			childArgs = ['--config=config/config.json', path.join(__dirname, 'src/axe.js')
@@ -124,8 +129,25 @@ if (fs.existsSync(ssl_path)) {
 						];
 		}	
 		childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+			var report_header, htmlContent = "";
+			fs.readFile('views/report.html', 'utf8', function (err,data) {
+			  if (err) {
+			    return console.log(err);
+			  }
+			  report_header = data;
+				htmlContent = report_header+ stdout;
+				fs.writeFile('reports/'+report_filename, htmlContent, function(err) {
+						if(err) {
+								return console.log(err);
+						}
+						console.log("The file was saved!");
+				}); 
+			});
+		
+			
+	
 			res.json({ userName: userName, data: stdout });
-			log(stdout);
+		//	log(stdout);
 		});
 	});
 
@@ -232,7 +254,7 @@ if (fs.existsSync(ssl_path)) {
 		    	res.write(stdout);
 		    	res.end();
 		    	log(stdout);
-				fs.unlink(tempFilename);
+				//fs.unlink(tempFilename);
 			  
 			});
 		});

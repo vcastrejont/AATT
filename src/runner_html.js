@@ -25,7 +25,7 @@ var HTMLCS_RUNNER = new function() {
 						return;
 						}
 
-					content += '<table id="test-results-table" class="tablesorter"><thead><tr>';
+					content += '<table id="test-results-table" class="tablesorter table table-striped"><thead><tr>';
 					if(standard=='Section508') content += '<th>Message</th><th>Rule</th>';
 					else content += '<th>Error Level</th><th>Principle</th><th>Message</th><th>Code snippet</th><th>Techniques</th>';
 					content += '</thead></tr><tbody>';
